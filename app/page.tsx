@@ -51,27 +51,29 @@ export default function HomePage() {
 
   // RETURN ///////////////////////////
   return (
-    <div className="p-6 pb-14 px-8 bg-zinc-900 min-h-screen max-w-screen-xl mx-auto">
-      {/*banner */}
-      <div className="">
-        <Banner />
-      </div>
-      {/*nfs list */}
-      <div className="mt-8 px-1">
-        <div className="flex items-baseline flex-col md:flex-row gap-2">
-          <H2 styles="text-white">Discover Latest NFTs Collection </H2>
-          <small className="text-gray-500 font-light">
-            (This is a testnet API please refresh to get good NFTS)
-          </small>
+    <div className="p-6 pb-14 px-8 bg-zinc-900 min-h-screen">
+      <div className="max-w-screen-xl mx-auto">
+        {/*banner */}
+        <div className="">
+          <Banner />
         </div>
-        <div className="mt-6">
-          {loading && (
-            <div className="flex justify-center">
-              <Loader />
+        {/*nfs list */}
+        <div className="mt-8 px-1">
+          <div className="flex items-baseline flex-col md:flex-row gap-2">
+            <H2 styles="text-white">Discover Latest NFTs Collection </H2>
+            <small className="text-gray-500 font-light">
+              (This is a testnet API please refresh to get good NFTS)
+            </small>
+          </div>
+          <div className="mt-6">
+            {loading && (
+              <div className="flex justify-center">
+                <Loader />
+              </div>
+            )}
+            <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-8">
+              {nfts && nfts.map((nft: any, i) => <NFTCard key={i} nft={nft} />)}
             </div>
-          )}
-          <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-8">
-            {nfts && nfts.map((nft: any, i) => <NFTCard key={i} nft={nft} />)}
           </div>
         </div>
       </div>
@@ -135,10 +137,10 @@ const NFTCard = ({ nft }: { nft: any }) => {
       {/*modal */}
       {modal && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 backdrop-blur-sm z-50">
-          <div className="text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] md:w-3/4 h-3/4 md:overflow-y-hidden overflow-y-scroll bg-zinc-800 rounded-lg">
+          <div className="text-white max-w-screen-xl mx-auto absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] md:w-3/4 h-3/4 md:overflow-y-hidden overflow-y-scroll bg-zinc-800 rounded-lg">
             <div className="flex justify-end pr-3">
               <button
-                className="text-2xl font-bold text-pink-500"
+                className="text-4xl font-bold text-pink-500"
                 onClick={() => setModal(false)}
               >
                 &times;
