@@ -1,24 +1,26 @@
 "use client";
 
-// COMPONENTS
-import { H1, H2, H3 } from "@/components/typgraphy";
 import { useEffect, useState } from "react";
 
-// CONSTANTS
+// COMPONENTS
+import { H1, H2, H3 } from "@/components/typgraphy";
 
+// CONSTANTS
 const API_URL =
   "https://testnets-api.opensea.io/v2/orders/goerli/seaport/listings?limit=8";
 
 // ====================================
 // Home PAGE COMPONENTS ////////
 // ====================================
-
 export default function HomePage() {
   const [nfts, setNfts] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  // fetching NFTS from openSea testnet API
   const fetchNfts = async () => {
+    // request options
     const options = { method: "GET", headers: { accept: "application/json" } };
+    // error handling
     const handleError = (err: any) => {
       throw new Error(err);
     };
@@ -38,6 +40,7 @@ export default function HomePage() {
     }
   };
 
+  // fetch nfts once (on page load)
   useEffect(() => {
     (async () => {
       await fetchNfts();
@@ -55,13 +58,19 @@ export default function HomePage() {
       </div>
       {/*nfs list */}
       <div className="mt-8 px-1">
-        <div className="">
-          <H2 styles="text-white">Discover Latest NFTs Collection</H2>
+        <div className="flex items-baseline flex-col md:flex-row gap-2">
+          <H2 styles="text-white">Discover Latest NFTs Collection </H2>
+          <small className="text-gray-500 font-light">
+            (This is a testnet API please refresh to get good NFTS)
+          </small>
         </div>
         <div className="mt-6">
+          {loading && (
+            <div className="flex justify-center">
+              <Loader />
+            </div>
+          )}
           <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-8">
-            {loading && <H2 styles="text-white">loading...</H2>}
-
             {nfts && nfts.map((nft: any, i) => <NFTCard key={i} nft={nft} />)}
           </div>
         </div>
@@ -74,14 +83,14 @@ export default function HomePage() {
 // EXTENDED COMPONENTS /////////////////
 const Banner = () => (
   <div className="relative overflow-hidden flex items-center justify-center h-[200px] rounded-xl bg-gradient-to-r from-pink-500 to-purple-500">
-    <div className="absolute w-48 h-48 bg-white opacity-50 rounded-full -top-9 -left-12" />
+    <div className="absolute w-48 h-48 bg-white opacity-50 rounded-full -top-24 md:-top-9 -left-24 md:-left-12" />
 
-    <div className="flex flex-col items-center justify-center space-y-3">
+    <div className="flex flex-col items-center text-center justify-center space-y-3">
       <H1 styles="text-white">OpenSea</H1>
       <H2 styles="text-white">The largest NFT marketplace</H2>
     </div>
 
-    <div className="absolute w-72 h-72 bg-white opacity-50 rounded-full -bottom-24 -right-12" />
+    <div className="absolute w-72 h-72 bg-white opacity-50 rounded-full -bottom-48 md:-bottom-24 -right-32 md:-right-12" />
   </div>
 );
 
@@ -123,6 +132,7 @@ const NFTCard = ({ nft }: { nft: any }) => {
           </button>
         </div>
       </div>
+      {/*modal */}
       {modal && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 backdrop-blur-sm z-50">
           <div className="text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] md:w-3/4 h-3/4 md:overflow-y-hidden overflow-y-scroll bg-zinc-800 rounded-lg">
@@ -209,3 +219,23 @@ const NFTCard = ({ nft }: { nft: any }) => {
     </>
   );
 };
+
+const Loader = () => (
+  <svg
+    width="800px"
+    height="800px"
+    viewBox="0 0 16 16"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    className="animate-spin h-14 w-14"
+  >
+    <g fill="#ec4899" fillRule="evenodd" clipRule="evenodd">
+      <path
+        d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8z"
+        opacity=".2"
+      />
+
+      <path d="M7.25.75A.75.75 0 018 0a8 8 0 018 8 .75.75 0 01-1.5 0A6.5 6.5 0 008 1.5a.75.75 0 01-.75-.75z" />
+    </g>
+  </svg>
+);
